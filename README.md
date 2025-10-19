@@ -150,7 +150,7 @@ ser mais eficiente e conseguir ir gradualmente concluido nossa entrega no tempo 
           
      <p align="center">
   <strong>[Issues GitHub]</strong><br>
-<img width="1920" height="1020" alt="Image" src="https://github.com/user-attachments/assets/3b66fc74-5a7c-44bf-81fa-3da80b044488" />
+<img width="1920" height="1020" alt="Image" src="https://github.com/user-attachments/assets/07a81060-a0f6-4dc9-acd7-55025e069d12" />
 </p>
 
    
