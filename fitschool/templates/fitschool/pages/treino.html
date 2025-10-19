@@ -10,163 +10,217 @@
   <link rel="stylesheet" href="{% static 'css/styleTreino.css' %}">
 </head>
 <body>
-  <div class="container">
-    <header>
-      <div class="logo">
-        <i class="fas fa-dumbbell"></i>
-        <span>FitSchool</span>
-      </div>
-      <nav>
-        <ul>
-          <li><a href = "{% url 'menu' %}" >Dashboard</a></li>
-          <li><a href="#" class="active">Treinos</a></li>
-          <li><a href = "{% url 'perfil_usuario' %}" >Perfil Usuário</a></li>
-          <li><a href="#">Professor</a></li>
-          <li><a href = "{% url 'frequencia' %}" >Frequência</a></li>
-
-        </ul>
-      </nav>
-      <div class="user-info">
-      <div class="user-text">
-        <h3>{{ user.username }}</h3>
-      </div>
-      </div>
-    </header>
-
-    <div class="main-content">
-      <div class="page-header">
-        <h1 class="page-title">Meus Treinos</h1>
-        <button class="btn btn-primary" onclick="showAddWorkoutModal()">
-          <i class="fas fa-plus"></i> Novo Treino
-        </button>
-      </div>
-
-      <div class="workout-filters">
-        <div class="filter-group">
-          <label for="workout-type">Tipo de Treino</label>
-          <select id="workout-type">
-            <option value="">Todos os tipos</option>
-            <option value="strength">Força</option>
-            <option value="cardio">Cardio</option>
-            <option value="hypertrophy">Hipertrofia</option>
-            <option value="endurance">Resistência</option>
-          </select>
-        </div>
-        <div class="filter-group">
-          <label for="workout-day">Dia da Semana</label>
-          <select id="workout-day">
-            <option value="">Todos os dias</option>
-            <option value="monday">Segunda-feira</option>
-            <option value="tuesday">Terça-feira</option>
-            <option value="wednesday">Quarta-feira</option>
-            <option value="thursday">Quinta-feira</option>
-            <option value="friday">Sexta-feira</option>
-            <option value="saturday">Sábado</option>
-            <option value="sunday">Domingo</option>
-          </select>
-        </div>
-        <div class="filter-group">
-          <label for="search">Buscar</label>
-          <input type="text" id="search" placeholder="Nome do treino">
-        </div>
-      </div>
-
-      <div class="workout-list">
-        <!-- Cards de exemplo -->
-        <div class="workout-card">
-          <div class="workout-header">
-            <h3 class="workout-title">Superiores A</h3>
-            <span class="workout-type">Força</span>
-          </div>
-          <div class="workout-body">
-            <div class="workout-detail"><span>Dia:</span><span>Segunda-feira</span></div>
-            <div class="workout-detail"><span>Duração:</span><span>60 min</span></div>
-            <div class="workout-detail"><span>Exercícios:</span><span>5</span></div>
-            <div class="exercise-list">
-              <div class="exercise-item"><span>Supino Reto</span><span>3x12 - 40kg</span></div>
-              <div class="exercise-item"><span>Remada Curvada</span><span>3x10 - 35kg</span></div>
-              <div class="exercise-item"><span>Desenvolvimento</span><span>3x12 - 20kg</span></div>
-            </div>
-          </div>
-          <div class="workout-footer">
-            <div class="workout-actions">
-              <button class="btn-icon" title="Iniciar treino"><i class="fas fa-play"></i></button>
-              <button class="btn-icon" title="Editar treino" onclick="showEditWorkoutModal()"><i class="fas fa-edit"></i></button>
-              <button class="btn-icon" title="Excluir treino"><i class="fas fa-trash"></i></button>
-            </div>
-            <span class="workout-status completed">Concluído</span>
-          </div>
-        </div>
-      </div>
+  
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="logo">
+        <h1>Fitschool</h1>
     </div>
 
-    <footer>
-      <p>FitSchool &copy; 2025 - Todos os direitos reservados</p>
-    </footer>
-  </div>
+    <div class="user-info">
+        <div class="avatar">{{ user.username|first|upper }}</div>
+        <div class="user-details">
+            <h3>{{ user.username }}</h3>
+            <p>{{ user.email }}</p>
+        </div>
+    </div>
 
-  <!-- Modal Adicionar Treino -->
-  <div class="modal" id="addWorkoutModal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2 class="modal-title">Adicionar Novo Treino</h2>
-        <span class="close" onclick="closeModal('addWorkoutModal')">&times;</span>
+    <ul class="menu">
+        <li><a href="{% url 'menu' %}"><i class="fa-solid fa-table-columns"></i> Dashboard</a></li>
+        <li><a href="{% url 'perfil_usuario' %}"><i class="fas fa-user"></i> Meu Perfil</a></li>
+        <li><a href="#" class="active"><i class="fas fa-dumbbell"></i> Meus Treinos</a></li>
+        <li><a href="{% url 'frequencia' %}"><i class="fas fa-calendar-check"></i> Frequência</a></li>
+        <li><a href="#"><i class="fas fa-bell"></i> Notificações</a></li>
+        <li><a href="#"><i class="fas fa-chalkboard-teacher"></i> Professores</a></li>
+    </ul>
+  </aside>
+
+  <div class="main-content">
+    <div class="page-header">
+      <h1 class="page-title">Meus Treinos</h1>
+      <button class="btn btn-primary" onclick="showAddWorkoutModal()">
+        <i class="fas fa-plus"></i> Novo Treino
+      </button>
+    </div>
+
+    <div class="workout-list">
+      {% if treinos %}
+        {% for treino in treinos %}
+        <div class="workout-card">
+          <div class="workout-header">
+            <h3 class="workout-title">{{ treino.nome }}</h3>
+            <span class="workout-type">{{ treino.tipo|title }}</span>
+          </div>
+
+          <div class="workout-body">
+            <div class="workout-detail"><span>Dia:</span><span>{{ treino.dia_semana|title }}</span></div>
+            <div class="workout-detail"><span>Duração:</span><span>{{ treino.duracao }} min</span></div>
+            <div class="workout-detail"><span>Observações:</span><span>{{ treino.observacoes|default:"—" }}</span></div>
+          </div>
+
+          <!-- 🔹 ADICIONADO: EXIBIÇÃO DOS EXERCÍCIOS -->
+          <div class="workout-exercises">
+            <h4>Exercícios</h4>
+            <ul>
+              {% for exercicio in treino.exercicios.all %}
+                <li>
+                  {{ exercicio.nome }} — {{ exercicio.series }}x{{ exercicio.repeticoes }}
+                  {% if exercicio.carga %}
+                    ({{ exercicio.carga }})
+                  {% endif %}
+                </li>
+              {% empty %}
+                <li><em>Nenhum exercício cadastrado.</em></li>
+              {% endfor %}
+            </ul>
+          </div>
+          <!-- 🔹 FIM DA ADIÇÃO -->
+
+          <div class="workout-footer">
+            <div class="workout-actions">
+              <form action="{% url 'excluir_treino' treino.id %}" method="post" style="display:inline;" onsubmit="return confirmarExclusao('{{ treino.nome }}')">
+  {% csrf_token %}
+  <button type="submit" class="btn-icon" title="Excluir treino">
+    <i class="fas fa-trash"></i>
+  </button>
+</form>
+
+<button class="btn-icon-edit" title="Editar treino">
+  <i class="fas fa-pen"></i>
+</button>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      {% else %}
+      <div class="empty-state">
+        <i class="fas fa-dumbbell"></i>
+        <p>Nenhum treino cadastrado ainda</p>
       </div>
-      <form id="workoutForm">
+      {% endif %}
+    </div>
+
+    <!-- Modal Adicionar Treino -->
+<div class="modal" id="addWorkoutModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 class="modal-title">Adicionar Novo Treino</h2>
+      <span class="close" onclick="closeModal('addWorkoutModal')">&times;</span>
+    </div>
+
+    <!-- Formulário Django -->
+    <form method="POST">
+      {% csrf_token %}
+      {{ exercicio_formset.management_form }}
+      <div class="form-group">
+        <label for="id_nome">Nome do Treino</label>
+        {{ form.nome }}
+      </div>
+
+      <div class="form-row">
         <div class="form-group">
-          <label for="workout-name">Nome do Treino</label>
-          <input type="text" id="workout-name" placeholder="Ex: Superiores A" required>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label for="workout-type-modal">Tipo de Treino</label>
-            <select id="workout-type-modal" required>
-              <option value="">Selecione o tipo</option>
-              <option value="strength">Força</option>
-              <option value="cardio">Cardio</option>
-              <option value="hypertrophy">Hipertrofia</option>
-              <option value="endurance">Resistência</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="workout-day-modal">Dia da Semana</label>
-            <select id="workout-day-modal" required>
-              <option value="">Selecione o dia</option>
-              <option value="monday">Segunda-feira</option>
-              <option value="tuesday">Terça-feira</option>
-              <option value="wednesday">Quarta-feira</option>
-              <option value="thursday">Quinta-feira</option>
-              <option value="friday">Sexta-feira</option>
-              <option value="saturday">Sábado</option>
-              <option value="sunday">Domingo</option>
-            </select>
-          </div>
+          <label for="id_tipo">Tipo de Treino</label>
+          {{ form.tipo }}
         </div>
         <div class="form-group">
-          <label for="workout-duration">Duração (minutos)</label>
-          <input type="number" id="workout-duration" placeholder="Ex: 60" min="5" max="180" required>
+          <label for="id_dia_semana">Dia da Semana</label>
+          {{ form.dia_semana }}
         </div>
-        <div class="form-group">
-          <label for="workout-notes">Observações</label>
-          <textarea id="workout-notes" rows="3" placeholder="Observações sobre o treino"></textarea>
-        </div>
-        <h3>Exercícios</h3>
+      </div>
+
+      <div class="form-group">
+        <label for="id_duracao">Duração (minutos)</label>
+        {{ form.duracao }}
+      </div>
+
+      <div class="form-group">
+        <label for="id_observacoes">Observações</label>
+        {{ form.observacoes }}
+      </div>
+
+      <h3>Exercícios</h3>
+      <div id="exercise-container">
+        {% for exercicio_form in exercicio_formset %}
         <div class="exercise-form">
           <div class="form-row">
             <div class="form-group">
-              <label for="exercise-name">Nome do Exercício</label>
-              <input type="text" id="exercise-name" placeholder="Ex: Supino Reto">
+              <label>Nome do Exercício</label>
+              {{ exercicio_form.nome }}
+            </div>
+            <div class="form-group">
+              <label>Séries</label>
+              {{ exercicio_form.series }}
+            </div>
+            <div class="form-group">
+              <label>Repetições</label>
+              {{ exercicio_form.repeticoes }}
             </div>
           </div>
-          <button type="button" class="add-exercise-btn">
-            <i class="fas fa-plus"></i> Adicionar Exercício
-          </button>
         </div>
-        <button type="submit" class="btn btn-primary" style="width: 100%;">Salvar Treino</button>
-      </form>
-    </div>
-  </div>
+        {% endfor %}
+      </div>
 
-  <script src="script.js"></script>
+      <button type="button" id="add-exercise-btn" class="add-exercise-btn">
+        <i class="fas fa-plus"></i> Adicionar Exercício
+      </button>
+
+      <button type="submit" class="btn btn-primary" style="width:100%;">Salvar Treino</button>
+    </form>
+  </div>
+</div>
+
+<!-- ✅ Modal Editar Treino (fora do modal de adicionar) -->
+<div class="modal" id="editWorkoutModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 class="modal-title">Editar Treino</h2>
+      <span class="close" onclick="closeModal('editWorkoutModal')">&times;</span>
+    </div>
+
+    <form id="editWorkoutForm" method="POST">
+      {% csrf_token %}
+      {{ exercicio_formset.management_form }}
+      <div class="form-group">
+        <label for="edit_nome">Nome do Treino</label>
+        <input type="text" name="nome" id="edit_nome">
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="edit_tipo">Tipo de Treino</label>
+          <input type="text" name="tipo" id="edit_tipo">
+        </div>
+        <div class="form-group">
+          <label for="edit_dia_semana">Dia da Semana</label>
+          <input type="text" name="dia_semana" id="edit_dia_semana">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="edit_duracao">Duração (minutos)</label>
+        <input type="number" name="duracao" id="edit_duracao">
+      </div>
+
+      <div class="form-group">
+        <label for="edit_observacoes">Observações</label>
+        <textarea name="observacoes" id="edit_observacoes"></textarea>
+      </div>
+
+      <h3>Exercícios</h3>
+<div id="edit-exercise-container"></div>
+
+<div style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
+  <button type="submit" class="btn btn-primary" style="width:100%;">Salvar Alterações</button>
+  <button type="button" class="btn btn-secondary" style="width:100%;"
+          onclick="closeModal('editWorkoutModal')">
+    Cancelar
+  </button>
+</div>
+  <script>
+  function confirmarExclusao(nomeTreino) {
+    return confirm(`Tem certeza que deseja excluir o treino "${nomeTreino}"?`);
+  }
+</script>
+  <script src="{% static 'js/script.js' %}"></script>
 </body>
 </html>

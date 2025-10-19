@@ -24,7 +24,6 @@ O sistema permitirá o **cadastro de exercícios**, **criação de rotinas perso
 Criar uma plataforma intuitiva onde usuários possam:
 
 - 📌 Registrar seus treinos e exercícios  
-- 📈 Acompanhar seu progresso ao longo do tempo  
 - 🏋️‍♂️ Ter acesso a diferentes programas de treinamento  
 - 📆 Gerenciar sua frequência na academia  
 
@@ -35,13 +34,12 @@ Criar uma plataforma intuitiva onde usuários possam:
 ### 🔐 Sistema de Autenticação
 - Cadastro e login de usuários  
 - Perfis de usuário personalizáveis  
-- Recuperação de senha  
 
 ### 💪 Gestão de Treinos
 - Cadastro de exercícios *(nome, descrição, músculos trabalhados, equipamentos)*  
 - Criação de fichas de treino personalizadas  
 - Categorização por grupos musculares  
-- Definição de séries, repetições e cargas  
+- Definição de séries e repetições
 
 ### 📊 Acompanhamento
 - Registro de treinos realizados  
@@ -142,12 +140,18 @@ ser mais eficiente e conseguir ir gradualmente concluido nossa entrega no tempo 
   opinões e para todos ficarem 100% por dentro de tudo que era feito e reuniões em duplas para a realização das atividades da dupla.Dessa forma, era
   possível que todo o grupo participasse de tudo,ficasse ciente de tudo consequentemente chegando no melhor resultado possível.
 
-
-      FALTA ATUALIZAR O LINK
-  <a href="https://youtu.be/fvkM9IUcWMM">
+  <a href="https://youtu.be/3B7e5boFHCk">
       <img src="https://img.shields.io/badge/Screencast-FF0000?style=for-the-badge&logo=youtube&logoColor=white" />
     </a>
-    
+    </details>
+
+    <details>
+    <summary>✅Entrega 03</summary>
+          
+     <p align="center">
+  <strong>[Issues GitHub]</strong><br>
+<img width="1920" height="1020" alt="Image" src="https://github.com/user-attachments/assets/3b66fc74-5a7c-44bf-81fa-3da80b044488" />
+</p>
 
    
    

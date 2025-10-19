@@ -16,101 +16,143 @@
             --danger: #ef476f;
             --gray: #adb5bd;
             --light-gray: #e9ecef;
+            --sidebar: #3a86ff;
+            --sidebar2: #8338ec;
         }
 
-        body {
-            background-color: #f5f7ff;
-            color: var(--dark);
-            line-height: 1.6;
-        }
+       body {
+    background-color: #f5f7fb;
+    color: var(--dark);
+    min-height: 100vh;
+}
 
-        .container {
-            width: 100%;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
+.sidebar {
+    width: 250px;
+    background: linear-gradient(135deg, var(--sidebar), var(--sidebar2));
+    color: white;
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--box-shadow);
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    transition: transform 0.3s ease;
+    z-index: 1000;
+}
 
-        /* Header Styles */
-        header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
+.main-content {
+    margin-left: 250px;  /* empurra o conteúdo para a direita */
+    padding: 30px;
+    transition: margin-left 0.3s ease;
+}
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 1.8rem;
-            font-weight: 700;
-        }
+/* Logo */
+.logo {
+    padding: 0 20px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    margin-bottom: 20px;
+}
 
-        .logo i {
-            color: var(--accent);
-        }
+.logo h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
 
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-        }
+/* User Info */
+.user-info {
+    padding: 0 20px 20px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    margin-bottom: 20px;
+}
 
-        nav a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            padding: 0.5rem;
-            border-radius: 4px;
-        }
+.avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    color: var(--primary-color);
+    font-weight: bold;
+    font-size: 1.2rem;
+}
 
-        nav a:hover {
-            color: var(--accent);
-            background: rgba(255, 255, 255, 0.1);
-        }
+.user-details h3 {
+    font-size: 1rem;
+    margin-bottom: 5px;
+}
 
-        nav a.active {
-            background: rgba(255, 255, 255, 0.2);
-            color: var(--accent);
-        }
+.user-details p {
+    font-size: 0.8rem;
+    opacity: 0.8;
+}
 
-        .user-actions {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-        }
+/* Menu */
+.menu {
+    list-style: none;
+    padding: 0 10px;
+}
 
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
+.menu li {
+    margin-bottom: 5px;
+}
 
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: var(--accent);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-        }
+.menu a {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    color: white;
+    text-decoration: none;
+    border-radius: var(--border-radius);
+    transition: all 0.3s ease;
+}
 
-        /* Main Content */
-        .main-content {
-            flex: 1;
-            padding: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-            width: 100%;
-        }
+.menu a:hover,
+.menu a.active {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.menu i {
+    margin-right: 10px;
+    width: 20px;
+    text-align: center;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+
+    .main-content {
+        margin-left: 0;
+    }
+
+    .menu {
+        display: flex;
+        overflow-x: auto;
+        padding-bottom: 10px;
+    }
+
+    .menu li {
+        margin-bottom: 0;
+        margin-right: 10px;
+        flex-shrink: 0;
+    }
+
+    .menu a {
+        white-space: nowrap;
+    }
+}
+        
 
         .page-header {
             display: flex;
@@ -134,6 +176,16 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
+        }
+
+        .btn-secondary {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #d81159;
+            transform: translateY(-2px);
         }
 
         .btn-primary {
@@ -273,6 +325,18 @@
         }
 
         .btn-icon:hover {
+            color: var(--primary);
+        }
+
+        .btn-icon-edit {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--gray);
+            transition: color 0.3s ease;
+        }
+
+        .btn-icon-edit:hover {
             color: var(--primary);
         }
 
@@ -435,4 +499,44 @@
                 gap: 0;
             }
         }
-    
+
+        .workout-exercises {
+  margin-top: 10px;
+  padding: 10px 15px;
+  background-color: var(--light);
+  border-radius: 10px;
+  border: 1px solid var(--light-gray);
+  max-height: none; /* sem limite */
+  overflow: visible; /* mostra todos */
+}
+
+.workout-exercises h4 {
+  font-size: 1rem;
+  color: var(--secondary);
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.workout-exercises ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.workout-exercises li {
+  background-color: white;
+  border: 1px solid var(--light-gray);
+  border-radius: 6px;
+  padding: 6px 10px;
+  margin-bottom: 5px;
+  font-size: 0.95rem;
+  color: var(--dark);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.workout-card {
+  height: auto !important;
+  overflow: visible !important;
+}

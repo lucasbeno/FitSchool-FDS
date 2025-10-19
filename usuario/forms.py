@@ -4,6 +4,9 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import Perfil
 from .models import Atleta
+from .models import Treino, Exercicio
+from django.forms import modelformset_factory
+
 
 class RegistroForm(UserCreationForm):
     email = forms.EmailField(
@@ -42,3 +45,23 @@ class AtletaForm(forms.ModelForm):
     class Meta:
         model = Atleta
         fields = ["nome", "apelido", "idade", "peso", "altura", "objetivo"]
+
+class TreinoForm(forms.ModelForm):
+    class Meta:
+        model = Treino
+        fields = ['nome', 'tipo', 'dia_semana', 'duracao', 'observacoes']
+
+
+class ExercicioForm(forms.ModelForm):
+    class Meta:
+        model = Exercicio
+        fields = ['nome', 'series', 'repeticoes']
+
+
+ExercicioFormSet = modelformset_factory(
+    Exercicio,
+    fields=('nome', 'series', 'repeticoes', 'carga'),
+    extra=7,            
+    max_num=7,           
+    can_delete=False     
+)
