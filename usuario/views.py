@@ -10,6 +10,9 @@ import json
 from .forms import RegistroForm, AtletaForm, TreinoForm, ExercicioFormSet
 from .models import Frequencia, Atleta, Treino, Exercicio
 
+from .models import Treino, Exercicio
+from .forms import TreinoForm, ExercicioFormSet
+
 
 
 @login_required
@@ -230,39 +233,39 @@ def excluir_treino(request, id):
     treino.delete()
     return redirect('meus_treinos')
 
-
-from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth.decorators import login_required
-from .models import Treino, Exercicio
-from .forms import TreinoForm, ExercicioFormSet
-
 @login_required
 def editar_treino(request, id):
     treino = get_object_or_404(Treino, id=id, usuario=request.user)
-    exercicios = Exercicio.objects.filter(treino=treino)
-    exercicio_formset = ExercicioFormSet(queryset=exercicios)
 
     if request.method == "POST":
-        form = TreinoForm(request.POST, instance=treino)
-        exercicio_formset = ExercicioFormSet(request.POST, queryset=exercicios)
+        # Atualiza informações básicas do treino
+        treino.nome = request.POST.get("nome", treino.nome)
+        treino.tipo = request.POST.get("tipo", treino.tipo)
+        treino.dia_semana = request.POST.get("dia_semana", treino.dia_semana)
+        treino.duracao = request.POST.get("duracao", treino.duracao)
+        treino.observacoes = request.POST.get("observacoes", treino.observacoes)
+        treino.save()
 
-        if form.is_valid() and exercicio_formset.is_valid():
-            treino = form.save()
+        # 🟢 Apaga os exercícios antigos
+        treino.exercicios.all().delete()
 
-            # Atualiza cada exercício do formset
-            for exercicio_form in exercicio_formset:
-                if exercicio_form.cleaned_data:
-                    exercicio = exercicio_form.save(commit=False)
-                    exercicio.treino = treino
-                    exercicio.save()
+        # 🟢 Recria com base nos dados vindos do formulário
+        total = int(request.POST.get("form-TOTAL_FORMS", 0))
+        for i in range(total):
+            nome = request.POST.get(f"form-{i}-nome")
+            series = request.POST.get(f"form-{i}-series")
+            repeticoes = request.POST.get(f"form-{i}-repeticoes")
+            carga = request.POST.get(f"form-{i}-carga")  # caso você adicione esse campo depois
 
-            return redirect("meusTreinos")
+            if nome and series and repeticoes:
+                Exercicio.objects.create(
+                    treino=treino,
+                    nome=nome.strip(),
+                    series=int(series),
+                    repeticoes=int(repeticoes),
+                    carga=carga or None,
+                )
 
-    else:
-        form = TreinoForm(instance=treino)
+        return redirect("meus_treinos")
 
-    return render(request, "fitschool/pages/fitschool/pages/treino.html", {
-        "form": form,
-        "exercicio_formset": exercicio_formset,
-        "treino": treino,
-    })
+    return redirect("meus_treinos")

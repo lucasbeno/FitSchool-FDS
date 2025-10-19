@@ -4,9 +4,10 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('', include('fitschool.urls')),     # sua home (app fitschool)
-    path('admin/', admin.site.urls),         # admin
-    path('user/menu/', include('usuario.urls')),  # todas as rotas do app usuario
+    path('', include('fitschool.urls')),
+    path('admin/', admin.site.urls),
+    path('user/menu/', include('usuario.urls')),
 ]
+
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
