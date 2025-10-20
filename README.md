@@ -60,7 +60,7 @@ Criar uma plataforma intuitiva onde usuários possam:
 ---
 
 ## 🛠️ Tecnologias Utilizadas
-- **Backend:** Django   
+- **Backend:** Django.   
 - **Frontend:** HTML, CSS, JavaScript  
 - **Banco de Dados:** SQLite   
 - **Deploy:** Azure
