@@ -112,69 +112,73 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-// 🔹 Função para abrir o modal de edição com dados do treino e exercícios
-document.querySelectorAll('.btn-icon-edit').forEach(button => {
+  document.querySelectorAll('.btn-icon-edit').forEach(button => {
   button.addEventListener('click', function () {
     const card = this.closest('.workout-card');
-    const formDelete = card.querySelector('form[action*="excluir_treino"]');
-    const treinoAction = formDelete ? formDelete.action : "";
-    const treinoId = treinoAction.split("/").filter(Boolean).pop();
+    const treinoId = card.dataset.treinoId; // ✅ ID direto do HTML
 
-    // pega dados do treino
+    // --- Dados básicos do treino ---
     const nome = card.querySelector('.workout-title').innerText;
     const tipo = card.querySelector('.workout-type').innerText;
     const dia = card.querySelector('.workout-detail:nth-child(1) span:last-child').innerText;
     const duracao = card.querySelector('.workout-detail:nth-child(2) span:last-child').innerText.replace(' min', '');
     const observacoes = card.querySelector('.workout-detail:nth-child(3) span:last-child').innerText;
 
-    // preenche os campos do modal
+    // --- Preenche os campos do modal ---
     document.getElementById('edit_nome').value = nome;
     document.getElementById('edit_tipo').value = tipo;
     document.getElementById('edit_dia_semana').value = dia;
     document.getElementById('edit_duracao').value = duracao;
     document.getElementById('edit_observacoes').value = observacoes === "—" ? "" : observacoes;
 
+    // --- Define a action correta do formulário ---
     const form = document.getElementById('editWorkoutForm');
-    form.action = `/treino/editar/${treinoId}/`;
+    form.action = `/user/menu/meusTreinos/editar/${treinoId}/`;
 
-    const exercicios = card.querySelectorAll('.workout-exercises ul li');
+    // --- Atualiza lista de exercícios ---
     const container = document.getElementById('edit-exercise-container');
     container.innerHTML = ''; // limpa antes
 
-    exercicios.forEach((li, index) => {
-      const texto = li.textContent.trim();
-      if (texto.startsWith('Nenhum')) return;
+    // ⚙️ Verifica se existem exercícios na estrutura
+    const exerciciosContainer = card.querySelector('.workout-exercises ul');
+    if (exerciciosContainer) {
+      const exercicios = exerciciosContainer.querySelectorAll('li');
+      exercicios.forEach((li, index) => {
+        const texto = li.textContent.trim();
+        if (texto.startsWith('Nenhum')) return;
 
-      const [nome, resto] = texto.split(' — ');
-      const [series, repeticoes] = resto.split('x');
+        const [nome, resto] = texto.split(' — ');
+        const [series, repeticoes] = resto ? resto.split('x') : ["", ""];
 
-      
-      container.innerHTML += `
-        <div class="exercise-form">
-          <div class="form-row">
-            <div class="form-group">
-              <label>Nome do Exercício</label>
-              <input type="text" name="form-${index}-nome" value="${nome.trim()}">
-            </div>
-            <div class="form-group">
-              <label>Séries</label>
-              <input type="number" name="form-${index}-series" value="${series.trim()}">
-            </div>
-            <div class="form-group">
-              <label>Repetições</label>
-              <input type="number" name="form-${index}-repeticoes" value="${repeticoes.trim()}">
+        container.innerHTML += `
+          <div class="exercise-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label>Nome do Exercício</label>
+                <input type="text" name="form-${index}-nome" value="${nome.trim()}">
+              </div>
+              <div class="form-group">
+                <label>Séries</label>
+                <input type="number" name="form-${index}-series" value="${series.trim()}">
+              </div>
+              <div class="form-group">
+                <label>Repetições</label>
+                <input type="number" name="form-${index}-repeticoes" value="${repeticoes.trim()}">
+              </div>
             </div>
           </div>
-        </div>
-      `;
-    });
+        `;
+      });
+    } else {
+      console.log("⚠️ Nenhum exercício encontrado para este treino.");
+    }
 
-    // mostra o modal
+    // --- Exibe o modal ---
     document.getElementById('editWorkoutModal').style.display = 'block';
   });
 });
 
-// fechar modal
+// --- Fechar modal ---
 function closeModal(id) {
   document.getElementById(id).style.display = 'none';
 }

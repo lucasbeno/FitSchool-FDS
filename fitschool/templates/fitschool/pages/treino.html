@@ -46,7 +46,7 @@
     <div class="workout-list">
       {% if treinos %}
         {% for treino in treinos %}
-        <div class="workout-card">
+        <div class="workout-card" data-treino-id="{{ treino.id }}">
           <div class="workout-header">
             <h3 class="workout-title">{{ treino.nome }}</h3>
             <span class="workout-type">{{ treino.tipo|title }}</span>
