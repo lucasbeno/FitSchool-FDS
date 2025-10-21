@@ -153,6 +153,44 @@ ser mais eficiente e conseguir ir gradualmente concluido nossa entrega no tempo 
 <img width="1920" height="1020" alt="Image" src="https://github.com/user-attachments/assets/07a81060-a0f6-4dc9-acd7-55025e069d12" />
 </p>
 
-   
+<p align="center">
+  <strong>[BackLog Jira]</strong><br>
+  <img width="2902" height="912" alt="Image" src="https://github.com/user-attachments/assets/5a63eebd-afe6-40ae-99df-4a0ddae54c1f" />
+</p>
+
+**Relatos de Pair Programming 2**
+
+Para essa entrega decidimos continuar o mesmo método utilizado na entrega passada e os mesmos meios de comunicação, nos reuniamos em um servidor nosso no discord
+e lá a gente se dividia em duplas apresentando a tela e assim conseguiamos progredir mais rapidamente e evitando o máximo de erros.
+
+**Divisão de Funções** ficava muito claro no whatsApp o que cada dupla faria na reunião no discord, decidimos que mudaríamos as funções de cada um no projeto,
+visando com que todos os integrantes do grupo tivessem a habilidade de fazer qualquer tarefa.Diante disso,uma dupla ficou com a implementação das novas histórias
+outra dupla com o pipeline automatizada e tudo que envolve o deploy e outra dupla com os testes automatizados. O Readme e o Jira foram gerenciados por todos os integrantes do grupo.
+
+**Metodologia de Trabalho**  Continuamos as reuniões no discord, onde o compartilhamento de tela era ativo, visando aumentar a produtividade e diminuir os erros. Também decidimos toda
+segunda-feira fazer uma reunião para que todos do grupo soubessem o que era pra ser feito na semana. Isso também era muito útil para uma organização melhor como grupo e a certeza dos 
+commits semanais.
+
+**Screencast Historias**
+
+<a href="https://youtu.be/3B7e5boFHCk">
+      <img src="https://img.shields.io/badge/Screencast-FF0000?style=for-the-badge&logo=youtube&logoColor=white" />
+    </a>
+
+**Screencast Build Deployment**
+
+<a href="https://youtu.be/3B7e5boFHCk">
+      <img src="https://img.shields.io/badge/Screencast-FF0000?style=for-the-badge&logo=youtube&logoColor=white" />
+    </a>
+
+**Screencast Testes**
+
+<a href="https://youtu.be/3B7e5boFHCk">
+      <img src="https://img.shields.io/badge/Screencast-FF0000?style=for-the-badge&logo=youtube&logoColor=white" />
+    </a>
+    
+
+
+
    
 
