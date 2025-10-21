@@ -171,6 +171,23 @@ outra dupla com o pipeline automatizada e tudo que envolve o deploy e outra dupl
 segunda-feira fazer uma reunião para que todos do grupo soubessem o que era pra ser feito na semana. Isso também era muito útil para uma organização melhor como grupo e a certeza dos 
 commits semanais.
 
+**Screencast Historias**
+<a href="https://youtu.be/3B7e5boFHCk">
+      <img src="https://img.shields.io/badge/Screencast-FF0000?style=for-the-badge&logo=youtube&logoColor=white" />
+    </a>
+
+**Screencast Build Deployment**
+<a href="https://youtu.be/3B7e5boFHCk">
+      <img src="https://img.shields.io/badge/Screencast-FF0000?style=for-the-badge&logo=youtube&logoColor=white" />
+    </a>
+
+**Screencast Testes**
+<a href="https://youtu.be/3B7e5boFHCk">
+      <img src="https://img.shields.io/badge/Screencast-FF0000?style=for-the-badge&logo=youtube&logoColor=white" />
+    </a>
+    
+    </details>
+
 
    
 
