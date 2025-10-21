@@ -153,6 +153,10 @@ ser mais eficiente e conseguir ir gradualmente concluido nossa entrega no tempo 
 <img width="1920" height="1020" alt="Image" src="https://github.com/user-attachments/assets/07a81060-a0f6-4dc9-acd7-55025e069d12" />
 </p>
 
-   
+<p align="center">
+  <strong>[BackLog Jira]</strong><br>
+  <img width="2902" height="912" alt="Image" src="https://github.com/user-attachments/assets/5a63eebd-afe6-40ae-99df-4a0ddae54c1f" />
+</p>
+
    
 
