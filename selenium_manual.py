@@ -84,7 +84,7 @@ def apagar_treino_com_alert():
     browser.get("http://127.0.0.1:8000/user/menu/meusTreinos/")
     time.sleep(3)
     
-    assert "Treino Com Assert" in browser.page_source
+    assert "Treino de Peito" in browser.page_source
     print("    ASSERT: Treino encontrado na lista")
     
     print("   Procurando lixeira...")
@@ -131,7 +131,7 @@ def verificar_treino_apagado():
     browser.get("http://127.0.0.1:8000/user/menu/meusTreinos/")
     time.sleep(3)
     
-    assert "Treino Com Assert" not in browser.page_source
+    assert "Treino de Peito" not in browser.page_source
     print("    ASSERT: Treino foi apagado com sucesso!")
     return True
 
@@ -215,4 +215,4 @@ except Exception as e:
     print(f" ERRO: {e}")
     input("Pressione ENTER para fechar...")
 
-print(" FIM DO TESTE COM ASSERTS") 
+print(" FIM DO TESTE COM ASSERTS")
