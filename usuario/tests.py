@@ -1,5 +1,4 @@
 from django.test import TestCase, Client
-from django.urls import reverse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 
@@ -12,7 +11,6 @@ class AuthTests(TestCase):
         )
     
     def test_login_page_loads(self):
-        self.client.logout()
         response = self.client.get('/')
         self.assertIn(response.status_code, [200, 302])
     
@@ -32,13 +30,14 @@ class TreinoTests(TestCase):
             username='Joao',
             password='Jh050307!'
         )
-        self.client.login(username='Joao', password='Jh050307!')
+        login_success = self.client.login(username='Joao', password='Jh050307!')
+        self.assertTrue(login_success)
     
     def test_treino_page_access(self):
         response = self.client.get('/user/menu/meusTreinos/')
         self.assertEqual(response.status_code, 200)
     
-    def test_create_treino(self):
+    def test_create_treino_page(self):
         response = self.client.get('/user/menu/meusTreinos/')
         self.assertEqual(response.status_code, 200)
 
@@ -49,7 +48,8 @@ class MenuTests(TestCase):
             username='Joao',
             password='Jh050307!'
         )
-        self.client.login(username='Joao', password='Jh050307!')
+        login_success = self.client.login(username='Joao', password='Jh050307!')
+        self.assertTrue(login_success)
     
     def test_menu_page(self):
         response = self.client.get('/user/menu/menu/')
