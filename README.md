@@ -173,19 +173,19 @@ commits semanais.
 
 **Screencast Historias**
 
-<a href="https://youtu.be/3B7e5boFHCk">
+<a href="https://youtu.be/qb0YTbHB8Fo?si=Zi5r-78qxV9r3uJ-">
       <img src="https://img.shields.io/badge/Screencast-FF0000?style=for-the-badge&logo=youtube&logoColor=white" />
     </a>
 
 **Screencast Build Deployment**
 
-<a href="https://youtu.be/3B7e5boFHCk">
+<a href="https://youtu.be/2GT6drQOZcg?si=OkpujIpVs8rz5aMO">
       <img src="https://img.shields.io/badge/Screencast-FF0000?style=for-the-badge&logo=youtube&logoColor=white" />
     </a>
 
 **Screencast Testes**
 
-<a href="https://youtu.be/3B7e5boFHCk">
+<a href="https://youtu.be/XBVLHp_tXgw?si=aAKEtC9lJHcJwOIX">
       <img src="https://img.shields.io/badge/Screencast-FF0000?style=for-the-badge&logo=youtube&logoColor=white" />
     </a>
     
