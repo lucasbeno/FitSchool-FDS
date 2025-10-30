@@ -1,4 +1,3 @@
-# usuario/forms.py
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
@@ -13,10 +12,18 @@ class RegistroForm(UserCreationForm):
         required=True,
         widget=forms.EmailInput(attrs={'placeholder': 'Seu e-mail'})
     )
+
     username = forms.CharField(
         label='Nome de usuário',
-        widget=forms.TextInput(attrs={'placeholder': 'Seu usuário'})
+        widget=forms.TextInput(attrs={'placeholder': 'Seu usuário'}),
+        help_text='Use apenas letras, números e os símbolos @/./+/-/_.',
+        error_messages={
+            'invalid': 'Por favor, insira um nome de usuário válido (apenas letras, números e @/./+/-/_). Espaços não são aceitos.',
+            'unique': 'Esse nome de usuário já está em uso. Escolha outro.',
+            'required': 'O campo nome de usuário é obrigatório.'
+        }
     )
+    
     password1 = forms.CharField(
         label='Senha',
         widget=forms.PasswordInput(attrs={'placeholder': 'Crie uma senha'})
