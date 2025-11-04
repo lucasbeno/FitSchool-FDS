@@ -18,8 +18,10 @@
 
   <div class="topbar-right">
     <div class="notification">
-      <span class="bell">🔔</span>
-      <span class="dot"></span>
+      <a href="{% url 'listar_notificacoes' %}" style="text-decoration: none; color: inherit;">
+        <span class="bell">🔔</span>
+        <span class="dot"></span>
+      </a>
     </div>
     <div class="user-info">
       <div class="user-text">
@@ -48,11 +50,11 @@
     <!-- Menu -->
     <ul class="menu">
         <li><a href="{% url 'criar_atleta' %}"><i class="fa-solid fa-plus"></i>Criar Atleta</a></li>
-        <li><a href = "{% url 'perfil_usuario' %}"><i class="fas fa-user"></i> Meu Perfil</a></li>
-        <li><a href="#" class="active"><i  class="fa-solid fa-table-columns"></i>Dashboard</a></li>
+        <li><a href="{% url 'perfil_usuario' %}"><i class="fas fa-user"></i> Meu Perfil</a></li>
+        <li><a href="#" class="active"><i class="fa-solid fa-table-columns"></i>Dashboard</a></li>
         <li><a href="{% url 'meus_treinos' %}"><i class="fas fa-dumbbell"></i> Meus Treinos</a></li>
         <li><a href="{% url 'frequencia' %}"><i class="fas fa-calendar-check"></i> Frequência</a></li>
-        <li><a href="#"><i class="fas fa-bell"></i> Notificações</a></li>
+        <li><a href="{% url 'listar_notificacoes' %}"><i class="fas fa-bell"></i> Notificações</a></li>
         <li><a href="#"><i class="fas fa-chalkboard-teacher"></i> Professores</a></li>
     </ul>
 </aside>

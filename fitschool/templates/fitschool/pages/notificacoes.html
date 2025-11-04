@@ -1,0 +1,152 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notificações - FitSchool</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/notificacoes.css' %}">
+</head>
+<body>
+
+  <!-- Top Bar -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <h2 class="logo">FitSchool</h2>
+    </div>
+
+    <div class="topbar-right">
+      <div class="notification">
+        <a href="{% url 'listar_notificacoes' %}" style="text-decoration: none; color: inherit;">
+          <span class="bell"></span>
+          <span class="dot"></span>
+        </a>
+      </div>
+      <div class="user-info">
+        <div class="user-text">
+          <h3>{{ user.username }}</h3>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="layout">
+    <!-- Sidebar -->
+    <aside class="user-sidebar">
+      <div class="logo">
+          <h1>Fitschool</h1>
+      </div>
+
+      <div class="user-info">
+          <div class="avatar">{{ user.username|first|upper }}</div>
+          <div class="user-details">
+              <h3>{{ user.username }}</h3>
+              <p>{{ user.email }}</p>
+          </div>
+      </div>
+
+      <ul class="menu">
+          <li><a href="{% url 'menu' %}"><i class="fa-solid fa-table-columns"></i> Dashboard</a></li>
+          <li><a href="{% url 'perfil_usuario' %}"><i class="fas fa-user"></i> Meu Perfil</a></li>
+          <li><a href="{% url 'meus_treinos' %}"><i class="fas fa-dumbbell"></i> Meus Treinos</a></li>
+          <li><a href="{% url 'frequencia' %}"><i class="fas fa-calendar-check"></i> Frequência</a></li>
+          <li><a href="#" class="active"><i class="fas fa-bell"></i> Notificações</a></li>
+          <li><a href="#"><i class="fas fa-chalkboard-teacher"></i> Professores</a></li>
+      </ul>
+    </aside>
+
+    <main class="menu-content">
+      <section class="page-section">
+        <div class="page-header">
+          <h1 class="page-title"> Notificações</h1>
+          <a href="{% url 'configurar_notificacoes' %}" class="btn btn-outline">
+            ⚙️ Configurar
+          </a>
+        </div>
+
+        <div class="notifications-container">
+          {% if notificacoes %}
+            <div class="notifications-list">
+              {% for notificacao in notificacoes %}
+              <div class="notification-card {% if not notificacao.lida %}unread{% endif %}">
+                <div class="notification-header">
+                  <h3 class="notification-title">
+                    {% if notificacao.tipo == 'lembrete_treino' %}
+                    {% elif notificacao.tipo == 'confirmacao_presenca' %}
+                    {% elif notificacao.tipo == 'sem_treino' %}
+                    {% endif %}
+                    {{ notificacao.titulo }}
+                  </h3>
+                  <span class="notification-time">{{ notificacao.data_criacao|date:"d/m/Y H:i" }}</span>
+                </div>
+                
+                <div class="notification-body">
+                  <p>{{ notificacao.mensagem }}</p>
+                </div>
+
+                <div class="notification-footer">
+                  {% if not notificacao.lida %}
+                  <a href="{% url 'marcar_notificacao_lida' notificacao.id %}" class="btn btn-success btn-sm">
+                    Marcar como lida
+                  </a>
+                  {% else %}
+                  <span class="badge-read">Lida</span>
+                  {% endif %}
+                  
+                  <form action="{% url 'apagar_notificacao' notificacao.id %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja apagar esta notificação?')">
+                      <i class="fas fa-trash"></i> Apagar
+                    </button>
+                  </form>
+                  
+                  {% if notificacao.tipo == 'confirmacao_presenca' and notificacao.treino_agendado %}
+                  <button onclick="confirmarPresenca({{ notificacao.treino_agendado.id }})" class="btn btn-primary btn-sm">
+                    Confirmar Presença
+                  </button>
+                  {% endif %}
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          {% else %}
+            <div class="empty-state">
+              <i class="fas fa-bell-slash"></i>
+              <p>Nenhuma notificação encontrada</p>
+            </div>
+          {% endif %}
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+  function confirmarPresenca(treinoId) {
+    if (confirm('Deseja confirmar sua presença neste treino?')) {
+      fetch(`/user/menu/treino/${treinoId}/confirmar-presenca/`, {
+        method: 'POST',
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          'X-CSRFToken': '{{ csrf_token }}'
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === 'success') {
+          alert(data.message);
+          location.reload();
+        } else {
+          alert('Erro ao confirmar presença.');
+        }
+      })
+      .catch(error => {
+        console.error('Erro:', error);
+        alert('Erro ao confirmar presença.');
+      });
+    }
+  }
+  </script>
+</body>
+</html>

@@ -15,6 +15,11 @@ urlpatterns = [
     path("menu/excluirAtleta/", views.excluir_atleta, name="excluir_atleta"),
     path('api/get-frequencia/', views.get_frequencia_mes, name='get_frequencia_mes'),
     path("meusTreinos/editar/<int:id>/", views.editar_treino, name="editar_treino"),
+    path('notificacoes/', views.listar_notificacoes, name='listar_notificacoes'),
+    path('notificacoes/<int:notificacao_id>/ler/', views.marcar_notificacao_lida, name='marcar_notificacao_lida'),
+    path('treino/<int:treino_id>/confirmar-presenca/', views.confirmar_presenca, name='confirmar_presenca'),
+    path('configurar-notificacoes/', views.configurar_notificacoes, name='configurar_notificacoes'),
+    path('notificacoes/<int:notificacao_id>/apagar/', views.apagar_notificacao, name='apagar_notificacao'),
 ]
 
 

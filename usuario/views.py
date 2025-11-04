@@ -8,16 +8,13 @@ from datetime import datetime
 import json
 
 from .forms import RegistroForm, AtletaForm, TreinoForm, ExercicioFormSet
-from .models import Frequencia, Atleta, Treino, Exercicio
-
-from .models import Treino, Exercicio
-from .forms import TreinoForm, ExercicioFormSet
+from .models import Frequencia, Atleta, Treino, Exercicio, Perfil, Notificacao, ConfirmacaoPresenca
+from .notificacoes import GerenciadorNotificacoes
 
 
 
 @login_required
 def frequencia_view(request):
-    # Esta parte calcula as estatísticas para os cards na primeira vez que a página carrega.
     frequencias = Frequencia.objects.filter(usuario=request.user)
     
     dias_presentes = frequencias.filter(status='PRESENTE').count()
@@ -269,3 +266,77 @@ def editar_treino(request, id):
         return redirect("meus_treinos")
 
     return redirect("meus_treinos")
+
+@login_required
+def listar_notificacoes(request):
+    """Lista todas as notificações do usuário"""
+    notificacoes = Notificacao.objects.filter(usuario=request.user)
+    
+    context = {
+        'notificacoes': notificacoes,
+        'total_nao_lidas': notificacoes.filter(lida=False).count()
+    }
+    
+    return render(request, 'fitschool/pages/notificacoes.html', context)
+
+@login_required
+def marcar_notificacao_lida(request, notificacao_id):
+    """Marca uma notificação como lida"""
+    notificacao = get_object_or_404(Notificacao, id=notificacao_id, usuario=request.user)
+    notificacao.lida = True
+    notificacao.save()
+    
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        return JsonResponse({'status': 'success'})
+    
+    return redirect('listar_notificacoes')
+
+@login_required
+@require_POST
+def apagar_notificacao(request, notificacao_id):
+    """Apaga uma notificação"""
+    notificacao = get_object_or_404(Notificacao, id=notificacao_id, usuario=request.user)
+    notificacao.delete()
+    
+    messages.success(request, 'Notificação apagada com sucesso!')
+    return redirect('listar_notificacoes')
+
+@login_required
+def confirmar_presenca(request, treino_id):
+    """Confirma presença em um treino"""
+    treino = get_object_or_404(Treino, id=treino_id, usuario=request.user)
+    
+    if request.method == 'POST':
+        confirmacao = GerenciadorNotificacoes.confirmar_presenca(request.user, treino)
+        
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({
+                'status': 'success',
+                'message': 'Presença confirmada com sucesso!'
+            })
+        
+        messages.success(request, 'Presença confirmada com sucesso!')
+        return redirect('listar_notificacoes')
+    
+    return JsonResponse({'status': 'error', 'message': 'Método não permitido'})
+
+@login_required
+def configurar_notificacoes(request):
+    """Configura preferências de notificação"""
+    # Tenta obter o perfil do usuário, cria se não existir
+    perfil, created = Perfil.objects.get_or_create(user=request.user)
+    
+    if request.method == 'POST':
+        notificacoes_ativadas = request.POST.get('notificacoes_ativadas') == 'on'
+        lembrete_minutos_antes = int(request.POST.get('lembrete_minutos_antes', 15))
+        
+        perfil.notificacoes_ativadas = notificacoes_ativadas
+        perfil.lembrete_minutos_antes = lembrete_minutos_antes
+        perfil.save()
+        
+        messages.success(request, 'Configurações de notificação atualizadas!')
+        return redirect('configurar_notificacoes')
+    
+    return render(request, 'fitschool/pages/configurar_notificacoes.html', {
+        'perfil': perfil
+    })
