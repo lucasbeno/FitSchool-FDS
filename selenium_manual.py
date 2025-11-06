@@ -1,20 +1,28 @@
-# teste_com_asserts.py
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.alert import Alert
 import time
 
 print("TESTE COM ASSERTS - VERIFICAÇÕES AUTOMÁTICAS")
 print("User: Joao | Senha: Jh050307!")
 print("=" * 60)
 
+# ✅ Configurações corretas para rodar no GitHub Actions (headless)
 chrome_options = Options()
+chrome_options.add_argument("--headless")  # Roda sem abrir janela
+chrome_options.add_argument("--no-sandbox")
+chrome_options.add_argument("--disable-dev-shm-usage")
+chrome_options.add_argument("--disable-gpu")
+chrome_options.add_argument("--window-size=1920,1080")
+chrome_options.add_argument("--disable-extensions")
 chrome_options.add_argument("--start-maximized")
-chrome_options.add_experimental_option("detach", True)
 
 browser = webdriver.Chrome(options=chrome_options)
+
+# =======================================================
+# FUNÇÕES DE TESTE AUTOMATIZADO
+# =======================================================
 
 def fazer_login():
     print("1. FAZENDO LOGIN...")
@@ -22,14 +30,14 @@ def fazer_login():
     time.sleep(3)
     
     assert "login" in browser.current_url or "127.0.0.1:8000" in browser.current_url
-    print("    ASSERT: Página de login carregada")
+    print("    ✅ ASSERT: Página de login carregada")
     
     browser.find_element(By.NAME, "username").send_keys("Joao")
     browser.find_element(By.NAME, "password").send_keys("Jh050307!" + Keys.ENTER)
     time.sleep(4)
     
     assert "menu" in browser.current_url or "127.0.0.1:8000" == browser.current_url
-    print("    ASSERT: Login realizado com sucesso")
+    print("    ✅ ASSERT: Login realizado com sucesso")
 
 def criar_treino():
     print("2. CRIANDO TREINO...")
@@ -37,7 +45,7 @@ def criar_treino():
     time.sleep(3)
     
     assert "treinos" in browser.current_url.lower() or "meustreinos" in browser.current_url.lower()
-    print("    ASSERT: Página de treinos carregada")
+    print("    ✅ ASSERT: Página de treinos carregada")
     
     print("   Clicando em Novo Treino...")
     botoes = browser.find_elements(By.TAG_NAME, "button")
@@ -49,7 +57,7 @@ def criar_treino():
     time.sleep(3)
     
     campos = [
-        ("nome", "Treino de Peito"),
+        ("nome", "Treino Com Assert"),
         ("tipo", "Musculacao"),
         ("dia_semana", "Segunda-feira"),
         ("duracao", "60"),
@@ -62,22 +70,18 @@ def criar_treino():
         try:
             campo = browser.find_element(By.NAME, name)
             campo.clear()
-            for char in valor:
-                campo.send_keys(char)
-                time.sleep(0.1)
-            time.sleep(0.5)
-        except:
+            campo.send_keys(valor)
+            time.sleep(0.3)
+        except Exception:
             pass
     
     botoes_salvar = browser.find_elements(By.XPATH, "//button[contains(text(), 'Salvar')]")
-    
     assert len(botoes_salvar) > 0, "Botão Salvar não encontrado"
-    print("    ASSERT: Botão Salvar encontrado")
+    print("    ✅ ASSERT: Botão Salvar encontrado")
     
     botoes_salvar[0].click()
     time.sleep(3)
-    print("    TREINO CRIADO!")
-    return True
+    print("    ✅ TREINO CRIADO!")
 
 def apagar_treino_com_alert():
     print("3. APAGANDO TREINO...")
@@ -85,46 +89,38 @@ def apagar_treino_com_alert():
     time.sleep(3)
     
     assert "Treino Com Assert" in browser.page_source
-    print("    ASSERT: Treino encontrado na lista")
-    
-    print("   Procurando lixeira...")
+    print("    ✅ ASSERT: Treino encontrado na lista")
     
     botoes = browser.find_elements(By.TAG_NAME, "button")
-    
     lixeira_encontrada = False
+    
     for btn in botoes:
-        texto = btn.text.strip()
-        if not texto:  
-            print("   Encontrou lixeira, clicando...")
+        if btn.text.strip() == "":
             try:
                 btn.click()
                 time.sleep(2)
-                print("    CLICOU NA LIXEIRA!")
                 lixeira_encontrada = True
+                print("    🗑️ Clicou na lixeira!")
                 break
-            except:
+            except Exception:
                 continue
     
     assert lixeira_encontrada, "Lixeira não encontrada"
-    print("    ASSERT: Lixeira encontrada e clicada")
+    print("    ✅ ASSERT: Lixeira encontrada e clicada")
     
-    print("   Aceitando alert...")
     try:
         alert = browser.switch_to.alert
         alert_text = alert.text
         print(f"   Alert: {alert_text}")
         
         assert "excluir" in alert_text.lower() and "treino" in alert_text.lower()
-        print("    ASSERT: Alert de confirmação apareceu")
+        print("    ✅ ASSERT: Alert de confirmação apareceu")
         
-        alert.accept()  
-        print("    ALERT ACEITO! TREINO EXCLUIDO!")
+        alert.accept()
+        print("    ✅ ALERT ACEITO! TREINO EXCLUÍDO!")
         time.sleep(2)
-        return True
-        
     except Exception as e:
-        print(f"    Erro com alert: {e}")
-        return False
+        print(f"    ⚠️ Erro com alert: {e}")
 
 def verificar_treino_apagado():
     print("4. VERIFICANDO SE TREINO FOI APAGADO...")
@@ -132,8 +128,7 @@ def verificar_treino_apagado():
     time.sleep(3)
     
     assert "Treino Com Assert" not in browser.page_source
-    print("    ASSERT: Treino foi apagado com sucesso!")
-    return True
+    print("    ✅ ASSERT: Treino foi apagado com sucesso!")
 
 def navegar_paginas_com_asserts():
     print("5. NAVEGANDO E VERIFICANDO PÁGINAS...")
@@ -150,7 +145,7 @@ def navegar_paginas_com_asserts():
         time.sleep(2)
         
         assert "not found" not in browser.page_source.lower(), f"Página {nome} não encontrada"
-        print(f"       ASSERT: {nome} carregada - {browser.title}")
+        print(f"       ✅ ASSERT: {nome} carregada")
 
 def voltar_ao_menu_final():
     print("6. VOLTANDO AO MENU FINAL...")
@@ -158,61 +153,33 @@ def voltar_ao_menu_final():
     time.sleep(3)
     
     assert "menu" in browser.current_url
-    print("    ASSERT: Voltou ao menu principal")
-    print(f"    {browser.current_url}")
+    print("    ✅ ASSERT: Voltou ao menu principal")
 
+# =======================================================
+# EXECUÇÃO SEQUENCIAL DO TESTE
+# =======================================================
 try:
     fazer_login()
-    
-    print("=" * 50)
-    print("CRIANDO TREINO...")
-    print("=" * 50)
-    
     criar_treino()
-    
-    print("=" * 50)
-    print("APAGANDO TREINO...")
-    print("=" * 50)
-    
     apagar_treino_com_alert()
-    
-    print("=" * 50)
-    print("VERIFICANDO EXCLUSÃO...")
-    print("=" * 50)
-    
     verificar_treino_apagado()
-    
-    print("=" * 50)
-    print("NAVEGANDO PELO SISTEMA...")
-    print("=" * 50)
-    
     navegar_paginas_com_asserts()
-    
-    print("=" * 50)
-    print("FINALIZANDO...")
-    print("=" * 50)
-    
     voltar_ao_menu_final()
     
     print("=" * 60)
-    print(" TESTE COM ASSERTS CONCLUÍDO!")
-    print("")
-    print(" TODOS OS ASSERTS PASSARAM!")
-    print(" Todas as verificações automáticas funcionaram")
-    print(" Teste 100% validado")
-    print("")
-    print(" Navegador aberto no MENU")
+    print("✅ TESTE COM ASSERTS CONCLUÍDO!")
+    print("💯 Todos os asserts passaram com sucesso!")
     print("=" * 60)
-    
-    time.sleep(15)
 
 except AssertionError as e:
-    print(f" ASSERT FALHOU: {e}")
-    print(" O teste parou porque uma verificação falhou")
-    input("Pressione ENTER para fechar...")
+    print(f"❌ ASSERT FALHOU: {e}")
+    browser.save_screenshot("assert_fail.png")
+    raise SystemExit(1)
 
 except Exception as e:
-    print(f" ERRO: {e}")
-    input("Pressione ENTER para fechar...")
+    print(f"⚠️ ERRO GERAL: {e}")
+    browser.save_screenshot("error_fail.png")
+    raise SystemExit(1)
 
-print(" FIM DO TESTE COM ASSERTS") 
+finally:
+    browser.quit()
