@@ -1,7 +1,7 @@
 from django.utils import timezone
 from django.contrib import messages
 from .models import Notificacao, ConfirmacaoPresenca, Perfil, Treino, Frequencia
-from datetime import timedelta
+from datetime import timedelta, datetime
 import logging
 
 logger = logging.getLogger(__name__)
@@ -10,7 +10,7 @@ class GerenciadorNotificacoes:
     
     @staticmethod
     def enviar_lembrete_treino(usuario, treino):
-        """Envia lembrete para treino agendado"""
+        """Envia lembrete para treino baseado no dia da semana"""
         try:
             perfil = Perfil.objects.get(user=usuario)
         except Perfil.DoesNotExist:
@@ -20,41 +20,54 @@ class GerenciadorNotificacoes:
         if not perfil.notificacoes_ativadas:
             return None
         
-        minutos_antes = perfil.lembrete_minutos_antes
-        horario_treino = treino.data_hora
-        horario_lembrete = horario_treino - timedelta(minutes=minutos_antes)
+        dia_hoje = timezone.now().strftime('%A').lower()
+        dias_semana = {
+            'sunday': 'domingo',
+            'monday': 'segunda',
+            'tuesday': 'terça', 
+            'wednesday': 'quarta',
+            'thursday': 'quinta',
+            'friday': 'sexta',
+            'saturday': 'sábado'
+        }
         
-        if timezone.now() >= horario_lembrete:
-            # Verifica se já foi enviada notificação recente para este treino
-            notificacao_existente = Notificacao.objects.filter(
+        dia_treino = treino.dia_semana.lower()
+        dia_hoje_ptbr = dias_semana.get(dia_hoje, '')
+        
+        if dia_treino != dia_hoje_ptbr:
+            return None 
+        
+        minutos_antes = perfil.lembrete_minutos_antes
+        horario_lembrete = timezone.now() + timedelta(minutes=minutos_antes)
+        
+        notificacao_existente = Notificacao.objects.filter(
+            usuario=usuario,
+            treino_agendado=treino,
+            tipo='lembrete_treino',
+            data_criacao__date=timezone.now().date()
+        ).exists()
+        
+        if not notificacao_existente:
+            notificacao = Notificacao.objects.create(
                 usuario=usuario,
-                treino_agendado=treino,
                 tipo='lembrete_treino',
-                data_criacao__date=timezone.now().date()
-            ).exists()
+                titulo=f' Lembrete de Treino - {treino.tipo}',
+                mensagem=f'Hoje é seu treino de {treino.tipo} ({treino.dia_semana}). Horário sugerido: {horario_lembrete.strftime("%H:%M")}. Não se esqueça!',
+                treino_agendado=treino,
+                data_envio=timezone.now()
+            )
             
-            if not notificacao_existente:
-                notificacao = Notificacao.objects.create(
-                    usuario=usuario,
-                    tipo='lembrete_treino',
-                    titulo=f'Lembrete de Treino - {treino.tipo}',
-                    mensagem=f'Seu treino de {treino.tipo} está agendado para {horario_treino.strftime("%H:%M")}. Não se esqueça!',
-                    treino_agendado=treino,
-                    data_envio=timezone.now()
-                )
-                
-                # Atualiza último lembrete enviado
-                perfil.ultimo_lembrete_enviado = timezone.now()
-                perfil.save()
-                
-                logger.info(f"Lembrete enviado para {usuario.username} - Treino: {treino.tipo}")
-                return notificacao
+            perfil.ultimo_lembrete_enviado = timezone.now()
+            perfil.save()
+            
+            logger.info(f"Lembrete enviado para {usuario.username} - Treino: {treino.tipo} - Dia: {treino.dia_semana}")
+            return notificacao
         
         return None
     
     @staticmethod
     def enviar_notificacao_sem_treino(usuario):
-        """Envia notificação quando não há treinos agendados"""
+        """Envia notificação quando não há treinos agendados para hoje"""
         try:
             perfil = Perfil.objects.get(user=usuario)
         except Perfil.DoesNotExist:
@@ -63,7 +76,6 @@ class GerenciadorNotificacoes:
         if not perfil.notificacoes_ativadas:
             return None
         
-        # Verifica se já foi enviada notificação hoje
         notificacao_existente = Notificacao.objects.filter(
             usuario=usuario,
             tipo='sem_treino',
@@ -86,21 +98,21 @@ class GerenciadorNotificacoes:
     
     @staticmethod
     def solicitar_confirmacao_presenca(usuario, treino):
-        """Solicita confirmação de presença no treino"""
-        # Verifica se já existe confirmação pendente
+        """Solicita confirmação de presença no treino do dia"""
         notificacao_existente = Notificacao.objects.filter(
             usuario=usuario,
             treino_agendado=treino,
             tipo='confirmacao_presenca',
-            lida=False
+            lida=False,
+            data_criacao__date=timezone.now().date()
         ).exists()
         
         if not notificacao_existente:
             notificacao = Notificacao.objects.create(
                 usuario=usuario,
                 tipo='confirmacao_presenca',
-                titulo='Confirmação de Presença',
-                mensagem=f'Por favor, confirme sua presença no treino de {treino.tipo} agendado para {treino.data_hora.strftime("%H:%M")}.',
+                titulo='✅ Confirmação de Presença',
+                mensagem=f'Por favor, confirme sua presença no treino de {treino.tipo} de hoje ({treino.dia_semana}).',
                 treino_agendado=treino,
                 data_envio=timezone.now()
             )
@@ -124,7 +136,6 @@ class GerenciadorNotificacoes:
             confirmacao.data_confirmacao = timezone.now()
             confirmacao.save()
         
-        # Marca notificação como lida
         Notificacao.objects.filter(
             usuario=usuario,
             treino_agendado=treino,
@@ -132,7 +143,6 @@ class GerenciadorNotificacoes:
             lida=False
         ).update(lida=True)
         
-        # Atualiza frequência
         Frequencia.objects.update_or_create(
             usuario=usuario,
             data=timezone.now().date(),
@@ -143,24 +153,46 @@ class GerenciadorNotificacoes:
         return confirmacao
     
     @staticmethod
-    def verificar_treinos_agendados():
-        """Verifica todos os treinos agendados e envia notificações"""
+    def verificar_treinos_hoje():
+        """Verifica todos os treinos agendados para HOJE e envia notificações"""
         agora = timezone.now()
+        dia_hoje = agora.strftime('%A').lower()
+        
+        dias_semana_map = {
+            'sunday': 'domingo',
+            'monday': 'segunda',
+            'tuesday': 'terça', 
+            'wednesday': 'quarta',
+            'thursday': 'quinta',
+            'friday': 'sexta',
+            'saturday': 'sábado'
+        }
+        
+        dia_hoje_ptbr = dias_semana_map.get(dia_hoje, '')
+        
         usuarios_com_notificacoes = Perfil.objects.filter(notificacoes_ativadas=True)
         
         for perfil in usuarios_com_notificacoes:
             usuario = perfil.user
-            # Busca treinos do usuário para hoje com data/hora específica
+            
             treinos_hoje = Treino.objects.filter(
                 usuario=usuario,
-                data_hora__date=agora.date(),
-                data_hora__gt=agora,
+                dia_semana__iexact=dia_hoje_ptbr, 
                 ativo=True
             )
             
             if treinos_hoje.exists():
                 for treino in treinos_hoje:
                     GerenciadorNotificacoes.enviar_lembrete_treino(usuario, treino)
-                    GerenciadorNotificacoes.solicitar_confirmacao_presenca(usuario, treino)
+                    
+                    notificacao_confirmacao_existente = Notificacao.objects.filter(
+                        usuario=usuario,
+                        treino_agendado=treino,
+                        tipo='confirmacao_presenca',
+                        data_criacao__date=agora.date()
+                    ).exists()
+                    
+                    if not notificacao_confirmacao_existente:
+                        GerenciadorNotificacoes.solicitar_confirmacao_presenca(usuario, treino)
             else:
                 GerenciadorNotificacoes.enviar_notificacao_sem_treino(usuario)
