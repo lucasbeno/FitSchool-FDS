@@ -540,3 +540,20 @@
   height: auto !important;
   overflow: visible !important;
 }
+
+.btn-icon-favorite {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  color: var(--gray); 
+  transition: color 0.2s ease;
+}
+
+.btn-icon-favorite:hover {
+  color: #ffc107;
+}
+
+.btn-icon-favorite.is-favorito {
+  color: #ffc107; 
+}

@@ -20,6 +20,7 @@ urlpatterns = [
     path('treino/<int:treino_id>/confirmar-presenca/', views.confirmar_presenca, name='confirmar_presenca'),
     path('configurar-notificacoes/', views.configurar_notificacoes, name='configurar_notificacoes'),
     path('notificacoes/<int:notificacao_id>/apagar/', views.apagar_notificacao, name='apagar_notificacao'),
+    path('treino/favoritar/<int:id>/', views.favoritar_treino, name='favoritar_treino'),
 ]
 
 

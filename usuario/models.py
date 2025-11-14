@@ -60,6 +60,7 @@ class Treino(models.Model):
     duracao = models.PositiveIntegerField()
     observacoes = models.TextField(blank=True, null=True)
     data_criacao = models.DateTimeField(auto_now_add=True)
+    favorito = models.BooleanField(default=False)
     
     # Novos campos para agendamento de treinos
     data_hora = models.DateTimeField(null=True, blank=True, help_text="Data e hora específica do treino")

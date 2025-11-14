@@ -195,6 +195,16 @@ def excluir_atleta(request):
     return render(request, "fitschool/pages/confirmar_delete.html", {"atleta": atleta})
 
 @login_required
+@require_POST 
+def favoritar_treino(request, id):
+    treino = get_object_or_404(Treino, id=id, usuario=request.user)
+    
+    treino.favorito = not treino.favorito
+    treino.save()
+
+    return JsonResponse({'status': 'success', 'favorito': treino.favorito})
+
+@login_required
 def meus_treinos(request):
     treinos = Treino.objects.filter(usuario=request.user)
     form = TreinoForm()
@@ -202,33 +212,66 @@ def meus_treinos(request):
 
     if request.method == 'POST':
         form = TreinoForm(request.POST)
-        exercicio_formset = ExercicioFormSet(request.POST)
+
+@login_required
+@require_POST  
+def favoritar_treino(request, id):
+    treino = get_object_or_404(Treino, id=id, usuario=request.user)
+    
+    # Alterna o valor booleano
+    treino.favorito = not treino.favorito
+    treino.save()
+    
+    # Retorna o novo status para o JavaScript
+    return JsonResponse({'status': 'success', 'favorito': treino.favorito})
+
+
+@login_required
+def meus_treinos(request):
+
+    filtro_ativo = request.GET.get('filtro')
+    
+    treinos = Treino.objects.filter(usuario=request.user).prefetch_related('exercicios')
+
+    if filtro_ativo == 'favoritos':
+        treinos = treinos.filter(favorito=True)
+
+    if request.method == 'POST':
+        form = TreinoForm(request.POST)
+        exercicio_formset = ExercicioFormSet(request.POST, prefix='form')
 
         if form.is_valid() and exercicio_formset.is_valid():
             treino = form.save(commit=False)
             treino.usuario = request.user
             treino.save()
-
-            # Salva todos os exercícios vinculados ao treino
-            for exercicio_form in exercicio_formset:
-                if exercicio_form.cleaned_data:
-                    exercicio = exercicio_form.save(commit=False)
-                    exercicio.treino = treino
-                    exercicio.save()
-
+            exercicios = exercicio_formset.save(commit=False)
+            for exercicio in exercicios:
+                exercicio.treino = treino
+                exercicio.save()
+            messages.success(request, 'Treino adicionado com sucesso!')
             return redirect('meus_treinos')
+        else:
+            messages.error(request, 'Houve um erro no formulário.')
 
-    return render(request, 'fitschool/pages/treino.html', {
+    else:
+        form = TreinoForm()
+        exercicio_formset = ExercicioFormSet(queryset=Exercicio.objects.none(), prefix='form')
+    
+    context = {
         'treinos': treinos,
         'form': form,
-        'exercicio_formset': exercicio_formset
-    })
+        'exercicio_formset': exercicio_formset,
+        'filtro_ativo': filtro_ativo 
+    }
+    return render(request, 'fitschool/pages/treino.html', context)
+
 
 @login_required
 def excluir_treino(request, id):
     treino = get_object_or_404(Treino, id=id, usuario=request.user)
     treino.delete()
     return redirect('meus_treinos')
+
 
 @login_required
 def editar_treino(request, id):
