@@ -39,8 +39,8 @@
             <h1 class="page-title">Meus Treinos</h1>
             
             <div class="header-actions">
-                <a href="{% url 'meus_treinos' %}" class="btn {% if not filtro_ativo %}btn-primary{% else %}btn-outline{% endif %}">Todos</a>
-                <a href="{% url 'meus_treinos' %}?filtro=favoritos" class="btn {% if filtro_ativo == 'favoritos' %}btn-primary{% else %}btn-outline{% endif %}">Favoritos</a>
+                <a href="{% url 'meus_treinos' %}" class="btn btn-primary">Todos</a>
+                <a href="{% url 'meus_treinos' %}?filtro=favoritos" class="btn btn-primary">Favoritos</a>
                 <button class="btn btn-primary" onclick="showAddWorkoutModal()">
                     <i class="fas fa-plus"></i> Novo Treino
                 </button>
