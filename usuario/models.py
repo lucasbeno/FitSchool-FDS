@@ -48,6 +48,8 @@ class Atleta(models.Model):
         if self.altura and self.peso and self.altura > 0:
             return float(self.peso) / (float(self.altura) ** 2)
         return None
+    
+    notificacoes_email = models.BooleanField(default=False)
 
     def __str__(self):
         return self.nome
@@ -107,6 +109,7 @@ class Notificacao(models.Model):
     
     def __str__(self):
         return f"{self.usuario.username} - {self.titulo}"
+    
 
 class ConfirmacaoPresenca(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE, related_name='confirmacoes')

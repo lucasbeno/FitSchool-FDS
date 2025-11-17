@@ -21,6 +21,7 @@ urlpatterns = [
     path('configurar-notificacoes/', views.configurar_notificacoes, name='configurar_notificacoes'),
     path('notificacoes/<int:notificacao_id>/apagar/', views.apagar_notificacao, name='apagar_notificacao'),
     path('treino/favoritar/<int:id>/', views.favoritar_treino, name='favoritar_treino'),
+    path('api/toggle-notificacoes-email/', views.toggle_notificacoes_email, name='toggle_notificacoes_email'),
 ]
 
 

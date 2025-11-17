@@ -160,4 +160,33 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
+    const toggleSwitch = document.getElementById('toggle-notificacoes-email');
+    
+    if (toggleSwitch) {
+        toggleSwitch.addEventListener('change', function() {
+            const isChecked = this.checked;
+
+            const csrfToken = document.querySelector('input[name=csrfmiddlewaretoken]').value;
+
+            fetch('/user/menu/api/toggle-notificacoes-email/', { 
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrfToken,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ 'notificacoes_ativas': isChecked })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status !== 'success') {
+                    console.error('Erro ao salvar preferência!');
+                    this.checked = !isChecked; 
+                }
+            })
+            .catch(error => {
+                console.error('Erro de rede:', error);
+                this.checked = !isChecked;
+            });
+        });
+    }
 });

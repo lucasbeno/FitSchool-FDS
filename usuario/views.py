@@ -62,7 +62,7 @@ def get_frequencia_mes(request):
     return JsonResponse({'error': 'Método inválido.'}, status=405)
 
 @login_required
-@require_POST # Garante que esta view só aceite requisições POST
+@require_POST
 def registrar_presenca(request):
     try:
         # Pega os dados enviados pelo JavaScript
@@ -366,7 +366,6 @@ def confirmar_presenca(request, treino_id):
 @login_required
 def configurar_notificacoes(request):
     """Configura preferências de notificação"""
-    # Tenta obter o perfil do usuário, cria se não existir
     perfil, created = Perfil.objects.get_or_create(user=request.user)
     
     if request.method == 'POST':
@@ -383,3 +382,25 @@ def configurar_notificacoes(request):
     return render(request, 'fitschool/pages/configurar_notificacoes.html', {
         'perfil': perfil
     })
+
+@login_required
+@require_POST
+def toggle_notificacoes_email(request):
+    """
+    View que o JavaScript chama para ligar/desligar as notificações
+    via e-mail. (VERSÃO CORRIGIDA)
+    """
+    
+    try:
+        data = json.loads(request.body)
+        notificacoes_ativas = data.get('notificacoes_ativas')
+
+        atleta, created = Atleta.objects.get_or_create(usuario=request.user)
+        
+        atleta.notificacoes_email = notificacoes_ativas
+        atleta.save()
+        
+        return JsonResponse({'status': 'success', 'notificacoes_ativas': atleta.notificacoes_email})
+    
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
