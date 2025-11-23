@@ -86,20 +86,6 @@
                   </div>
                 </div>
               </div>
-
-              <div class="setting-item">
-                <label for="lembrete_minutos_antes" class="setting-label">
-                  <strong>Lembrar treinos com antecedência</strong>
-                </label>
-                <div class="setting-input">
-                  <input type="number" id="lembrete_minutos_antes" name="lembrete_minutos_antes" 
-                         value="{{ perfil.lembrete_minutos_antes }}" min="5" max="1440" step="5">
-                  <span class="input-suffix">minutos antes</span>
-                </div>
-                <p class="setting-description">Quantos minutos antes do treino você deseja receber o lembrete</p>
-              </div>
-            </div>
-
             <div class="form-actions">
               <button type="submit" class="btn btn-primary">Salvar Configurações</button>
               <a href="{% url 'listar_notificacoes' %}" class="btn btn-outline">Cancelar</a>
