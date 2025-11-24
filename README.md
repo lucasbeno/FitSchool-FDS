@@ -195,7 +195,7 @@ commits semanais.
 
 <p align="center">
   <strong>[Issues GitHub]</strong><br>
-  <img width="1800" alt="Image" src="https://github.com/user-attachments/assets/SEU-PRINT-AQUI" />
+  <img width="1800" alt="Image" src="<img width="1917" height="908" alt="Image" src="https://github.com/user-attachments/assets/498f0ddf-8fd1-460e-9dbe-033243321c3a" />" />
 </p>
 
 <p align="center">
