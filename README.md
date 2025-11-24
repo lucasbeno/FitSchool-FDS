@@ -200,7 +200,7 @@ commits semanais.
 
 <p align="center">
   <strong>[BackLog Jira]</strong><br>
-  <img width="1800" alt="Image" src="https://github.com/user-attachments/assets/SEU-PRINT-AQUI" />
+  <img width="1800" alt="Image" src="<img width="2902" height="912" alt="Image" src="https://github.com/user-attachments/assets/f0790ecc-3738-471f-adeb-e1ce010d43c1" />
 </p>
 
 ---
