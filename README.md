@@ -188,6 +188,9 @@ commits semanais.
 <a href="https://youtu.be/XBVLHp_tXgw?si=aAKEtC9lJHcJwOIX">
       <img src="https://img.shields.io/badge/Screencast-FF0000?style=for-the-badge&logo=youtube&logoColor=white" />
     </a>
+
+
+<summary>✅Entrega 04</summary>
     
 
 
