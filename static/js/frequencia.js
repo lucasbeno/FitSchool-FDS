@@ -135,9 +135,10 @@ document.addEventListener('DOMContentLoaded', function() {
         .catch(error => console.error('Erro na requisição:', error));
     });
 
-    // --- 5. INICIALIZAÇÃO ---
+  
     const today = new Date();
     currentYear = today.getFullYear();
     currentMonth = today.getMonth();
     generateCalendar(currentYear, currentMonth);
 });
+
