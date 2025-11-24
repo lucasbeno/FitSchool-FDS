@@ -205,30 +205,30 @@ commits semanais.
 
 ---
 
-## **Relatos de Pair Programming 3**
+ **Relatos de Pair Programming 3**
 
-Para essa quarta entrega seguimos mantendo o mesmo método de trabalho que já vinha funcionando muito bem para o grupo. Continuamos utilizando nosso servidor no Discord como principal espaço de reuniões, e novamente trabalhamos em duplas compartilhando a tela. Isso facilitou bastante a troca de conhecimento e ajudou a reduzir erros, além de aumentar a produtividade geral do time.
+Para essa quarta entrega seguimos mantendo o mesmo método de trabalho que já vinha funcionando para o grupo. Continuamos utilizando no Discord para reuniões, e novamente trabalhamos em duplas compartilhando a tela. Isso facilita e acelera o desenvolvimento e ajuda a reduzir erros, além de aumentar a produtividade geral do time.
 
----
+ **Divisão de Funções**
 
-## **Divisão de Funções**
+Organizamos a divisão das tarefas diretamente pelo WhatsApp, garantindo que todos já chegassem na reunião do Discord sabendo o que fazer. Nessa entrega cada um escolheu o que se saia melhor desenvolvendo e dividimos a função de cada por gosto pessoal, depois em discussão entramos em um consenso.
+Nessa entrega, uma dupla ficou responsável pela implementação das novas historias e ajustes necessários, outra dupla cuidou do pipeline, deploy e monitoramento,já que mudamos o deploy para python anywhere enquanto a última dupla ficou focada nos testes automatizados e pelos slides do pitch. O Readme e o Jira continuaram sendo atualizados coletivamente pelo grupo inteiro.
 
-Organizamos a divisão das tarefas diretamente pelo WhatsApp, garantindo que todos já chegassem na reunião do Discord sabendo exatamente o que fazer. Mantivemos a lógica de rotacionar as responsabilidades, de forma que cada integrante pudesse experimentar diferentes áreas do projeto.  
-Nessa entrega, uma dupla ficou responsável pela implementação das novas US e ajustes necessários, outra dupla cuidou do pipeline, deploy e monitoramento, enquanto a última dupla ficou focada nos testes automatizados e validações finais. O Readme e o Jira continuaram sendo atualizados coletivamente pelo grupo inteiro.
+**Metodologia de Trabalho**
 
----
+Seguimos com a rotina de reuniões frequentes no Discord, sempre com compartilhamento de tela. Além disso, mantivemos a reunião fixa de quarta-feira para alinhar o planejamento da semana, definir prioridades e garantir que todos estivessem cientes das atividades. Esse formato continuou funcionando muito bem para manter organização e na consistência na entrega dos commits semanais.
 
-## **Metodologia de Trabalho**
+**Screencast Build Deployment**
 
-Seguimos com a rotina de reuniões frequentes no Discord, sempre com compartilhamento de tela. Além disso, mantivemos a reunião fixa de segunda-feira para alinhar o planejamento da semana, definir prioridades e garantir que todos estivessem cientes das atividades. Esse formato continuou funcionando muito bem para manter organização, sincronia entre os membros e consistência na entrega dos commits semanais.
+<a href="https://youtu.be/2GT6drQOZcg?si=OkpujIpVs8rz5aMO">
+      <img src="https://img.shields.io/badge/Screencast-FF0000?style=for-the-badge&logo=youtube&logoColor=white" />
+    </a>
 
----
+**Screencast Historias**
 
-## **Screencast Entrega 04**
-
-<a href="LINK-DO-SEU-VIDEO">
-  <img src="https://img.shields.io/badge/Screencast-FF0000?style=for-the-badge&logo=youtube&logoColor=white" />
-</a>
+<a href="https://youtu.be/qb0YTbHB8Fo?si=Zi5r-78qxV9r3uJ-">
+      <img src="https://img.shields.io/badge/Screencast-FF0000?style=for-the-badge&logo=youtube&logoColor=white" />
+    </a>
 
 </details>
     
