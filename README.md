@@ -190,7 +190,7 @@ commits semanais.
     </a>
     </details>
 
-     <details>
+  <details>
   <summary>✅Entrega 04</summary>
 
 <p align="center">
