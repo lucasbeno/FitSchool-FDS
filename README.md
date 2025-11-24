@@ -155,7 +155,7 @@ ser mais eficiente e conseguir ir gradualmente concluido nossa entrega no tempo 
 
 <p align="center">
   <strong>[BackLog Jira]</strong><br>
-  <img width="2902" height="912" alt="Image" src="https://github.com/user-attachments/assets/5a63eebd-afe6-40ae-99df-4a0ddae54c1f" />
+<img width="2902" height="912" alt="Image" src="https:<img width="2902" height="912" alt="Image" src="https://github.com/user-attachments/assets/f0790ecc-3738-471f-adeb-e1ce010d43c1" />
 </p>
 
 **Relatos de Pair Programming 2**
