@@ -136,6 +136,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
   
+
+    
     const today = new Date();
     currentYear = today.getFullYear();
     currentMonth = today.getMonth();
