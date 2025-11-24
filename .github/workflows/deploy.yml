@@ -28,6 +28,7 @@ jobs:
     - name: Run Tests
       run: |
         export SECRET_KEY='chave-secreta-falsa-para-testes'
+        export TARGET_ENV='dev'
         echo "SECRET_KEY=chave-secreta-falsa-para-testes" > .env
         echo "DEBUG=True" >> .env
         python manage.py test
