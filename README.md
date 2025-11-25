@@ -230,6 +230,12 @@ Seguimos com a rotina de reuniões frequentes no Discord, sempre com compartilha
       <img src="https://img.shields.io/badge/Screencast-FF0000?style=for-the-badge&logo=youtube&logoColor=white" />
     </a>
 
+**Screencast Teste e2e**
+
+<a href="https://www.youtube.com/watch?v=xPCNjw1j-jc">
+      <img src="https://img.shields.io/badge/Screencast-FF0000?style=for-the-badge&logo=youtube&logoColor=white" />
+    </a>
+
 </details>
     
 
