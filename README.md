@@ -220,7 +220,7 @@ Seguimos com a rotina de reuniões frequentes no Discord, sempre com compartilha
 
 **Screencast Build Deployment**
 
-<a href="https://youtu.be/2GT6drQOZcg?si=OkpujIpVs8rz5aMO">
+<a href="https://youtu.be/Yas1M8dXlSA">
       <img src="https://img.shields.io/badge/Screencast-FF0000?style=for-the-badge&logo=youtube&logoColor=white" />
     </a>
 
