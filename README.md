@@ -226,7 +226,7 @@ Seguimos com a rotina de reuniões frequentes no Discord, sempre com compartilha
 
 **Screencast Historias**
 
-<a href="https://youtu.be/qb0YTbHB8Fo?si=Zi5r-78qxV9r3uJ-">
+<a href="https://youtu.be/D2t62hNXciQ?si=y020gJlWW-XZW_Aq">
       <img src="https://img.shields.io/badge/Screencast-FF0000?style=for-the-badge&logo=youtube&logoColor=white" />
     </a>
 
